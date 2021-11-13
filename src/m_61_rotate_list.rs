@@ -25,6 +25,7 @@
 //
 // Related Topics Linked List Two Pointers 👍 3327 👎 1205
 
+use leetcode::{ListNode, ll};
 
 #[cfg(test)]
 mod tests {
@@ -32,52 +33,28 @@ mod tests {
 
     #[test]
     fn test_equality() {
-        let l1 = ListNode {
-            val: 1,
-            next: Some(Box::new(ListNode {
-                val: 2,
-                next: Some(Box::new(ListNode::new(3)))
-            }))
-        };
-        let l2 = ListNode {
-            val: 1,
-            next: Some(Box::new(ListNode {
-                val: 2,
-                next: Some(Box::new(ListNode::new(3)))
-            }))
-        };
+        let l1 = ll![1, 2, 3];
+        let l2 = ll![1, 2, 3];
         assert_eq!(l1, l2);
     }
 
     #[test]
     fn test_len_1() {
         let l = ListNode::new(1);
-        assert_eq!(l.len(), 1);
+        assert_eq!(len(&l), 1);
     }
 
     #[test]
     fn test_len_3() {
-        let l1 = ListNode {
-            val: 1,
-            next: Some(Box::new(ListNode {
-                val: 2,
-                next: Some(Box::new(ListNode::new(3)))
-            }))
-        };
-        assert_eq!(l1.len(), 3);
+        let l1 = ll![1, 2, 3];
+        assert_eq!(len(&l1.unwrap()), 3);
     }
 
     #[test]
     fn test_split_at() {
-        let mut l1 = ListNode {
-            val: 1,
-            next: Some(Box::new(ListNode {
-                val: 2,
-                next: Some(Box::new(ListNode::new(3)))
-            }))
-        };
-        let l2 = l1.split_at(1);
-        assert_eq!(l1.len(), 2);
+        let mut l1 = ll![1, 2, 3].unwrap();
+        let l2 = split_at(&mut l1, 1);
+        assert_eq!(len(&l1), 2);
         assert_eq!(l2, ListNode::new(3));
     }
 
@@ -85,17 +62,14 @@ mod tests {
     fn test_append() {
         let mut l = ListNode::new(1);
         let node = ListNode::new(2);
-        l.append(node);
-        assert_eq!(l.len(), 2);
+        append(&mut l, node);
+        assert_eq!(len(&l), 2);
     }
 
     #[test]
     fn test_rotate_right() {
-        let l = ListNode {
-            val: 2,
-            next: Some(Box::new(ListNode::new(3)))
-        };
-        assert_eq!(*rotate_right(Some(Box::new(l)), 1).unwrap(), ListNode {
+        let l = ll![2, 3];
+        assert_eq!(*rotate_right(l, 1).unwrap(), ListNode {
             val: 3,
             next: Some(Box::new(ListNode::new(2)))
         });
@@ -103,75 +77,44 @@ mod tests {
 
     #[test]
     fn test_rotate_right_3() {
-        let l = ListNode {
-            val: 1,
-            next: Some(Box::new(ListNode {
-                val: 2,
-                next: Some(Box::new(ListNode::new(3)))
-            }))
-        };
-        let l2 = ListNode {
-            val: 1,
-            next: Some(Box::new(ListNode {
-                val: 2,
-                next: Some(Box::new(ListNode::new(3)))
-            }))
-        };
-        assert_eq!(rotate_right(Some(Box::new(l)), 300), Some(Box::new(l2)));
-    }
-}
-
-// Definition for singly-linked list.
-#[derive(PartialEq, Eq, Clone, Debug)]
-pub struct ListNode {
-    pub val: i32,
-    pub next: Option<Box<ListNode>>
-}
-
-impl ListNode {
-    #[inline]
-    fn new(val: i32) -> Self {
-        ListNode {
-            next: None,
-            val
-        }
+        let l = ll![1, 2, 3];
+        let l2 = ll![1, 2, 3];
+        assert_eq!(rotate_right(l, 300), l2);
     }
 }
 
 //leetcode submit region begin(Prohibit modification and deletion)
 
-impl ListNode {
-    fn len(&self) -> usize {
-        let mut len = 1;
-        let mut current = self;
-        loop {
-            if let Some(ref next) = current.next {
-                current = next;
-                len += 1;
-            } else {
-                return len;
-            }
+fn len(head: &ListNode) -> usize {
+    let mut len = 1;
+    let mut current = head;
+    loop {
+        if let Some(ref next) = current.next {
+            current = next;
+            len += 1;
+        } else {
+            return len;
         }
     }
+}
 
-    fn split_at(&mut self, index: usize) -> ListNode {
-        let mut current = self;
-        for _ in 0 .. index {
-            current = current.next.as_mut().unwrap();
-        }
-        *current.next.take().unwrap()
+fn split_at(head: &mut ListNode, index: usize) -> ListNode {
+    let mut current = head;
+    for _ in 0 .. index {
+        current = current.next.as_mut().unwrap();
     }
+    *current.next.take().unwrap()
+}
 
-    fn append(&mut self, node: ListNode) {
-        let mut current = self;
-        loop {
-            if let Some(ref mut next) = current.next {
-                current = next;
-            } else {
-                let node = Some(Box::new(node));
-                current.next = node;
-                break;
-            }
+fn append(head: &mut ListNode, node: ListNode) {
+    let mut current = head;
+    loop {
+        if let Some(ref mut next) = current.next {
+            current = next;
+        } else {
+            let node = Some(Box::new(node));
+            current.next = node;
+            break;
         }
     }
 }
@@ -179,12 +122,12 @@ impl ListNode {
 pub fn rotate_right(head: Option<Box<ListNode>>, k: i32) -> Option<Box<ListNode>> {
     match head {
         Some(mut old_head) if k > 0 => {
-            let len = old_head.len();
+            let len = len(&*old_head);
             let r = k as usize % len;
             if r > 0 {
                 let i = len - r;
-                let mut new_head = old_head.split_at(i - 1);
-                new_head.append(*old_head);
+                let mut new_head = split_at(&mut *old_head, i - 1);
+                append(&mut new_head, *old_head);
                 Some(Box::new(new_head))
             } else {
                 Some(old_head)

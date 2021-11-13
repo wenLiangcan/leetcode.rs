@@ -33,50 +33,27 @@
 //
 // Related Topics Linked List Recursion 👍 4808 👎 252
 
+use leetcode::{ListNode, ll};
+
 #[cfg(test)]
 mod tests {
     use super::*;
 
     #[test]
     fn test_swap_pairs() {
-        let l = ListNode {
-            val: 1,
-            next: Some(Box::new(ListNode {
-                val: 2,
-                next: Some(Box::new(ListNode {
-                    val: 3,
-                    next: Some(Box::new(ListNode::new(4)))
-                }))
-            }))
-        };
-        let swapped = ListNode {
-            val: 2,
-            next: Some(Box::new(ListNode {
-                val: 1,
-                next: Some(Box::new(ListNode {
-                    val: 4,
-                    next: Some(Box::new(ListNode::new(3)))
-                }))
-            }))
-        };
-        assert_eq!(swap_pairs(Some(Box::new(l))), Some(Box::new(swapped)));
+        let l = ll![1, 2, 3, 4];
+        let swapped = ll![2, 1, 4, 3];
+        assert_eq!(swap_pairs(l), swapped);
     }
-}
 
-// Definition for singly-linked list.
-#[derive(PartialEq, Eq, Clone, Debug)]
-pub struct ListNode {
-    pub val: i32,
-    pub next: Option<Box<ListNode>>
-}
+    #[test]
+    fn test_empty_list() {
+        assert_eq!(swap_pairs(None), None);
+    }
 
-impl ListNode {
-    #[inline]
-    fn new(val: i32) -> Self {
-        ListNode {
-            next: None,
-            val
-        }
+    #[test]
+    fn test_one_item() {
+        assert_eq!(swap_pairs(ll![1]), ll![1]);
     }
 }
 

@@ -59,8 +59,7 @@ mod tests {
 
 
 //leetcode submit region begin(Prohibit modification and deletion)
-use std::collections::{HashMap, HashSet};
-use core::cmp::Ordering;
+use std::collections::HashSet;
 
 pub fn three_sum(nums: Vec<i32>) -> Vec<Vec<i32>> {
     let len = nums.len();
