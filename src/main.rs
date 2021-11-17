@@ -1,3 +1,7 @@
+mod e_53_maximum_subarray;
+mod e_136_single_number;
+mod e_217_contains_duplicate;
+
 mod m_8_string_to_integer;
 mod m_15_three_sum;
 mod m_24_swap_nodes_in_pairs;
