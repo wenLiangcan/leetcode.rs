@@ -1,4 +1,6 @@
+mod e_1_two_sum;
 mod e_53_maximum_subarray;
+mod e_88_merge_sorted_array;
 mod e_136_single_number;
 mod e_217_contains_duplicate;
 

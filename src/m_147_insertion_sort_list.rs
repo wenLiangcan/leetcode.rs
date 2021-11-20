@@ -87,7 +87,7 @@ pub fn insertion_sort_list(head: Option<Box<ListNode>>) -> Option<Box<ListNode>>
     }
 }
 
-fn insert_sorted(mut head: Option<Box<ListNode>>, mut node: ListNode) -> Option<Box<ListNode>> {
+fn insert_sorted(head: Option<Box<ListNode>>, mut node: ListNode) -> Option<Box<ListNode>> {
     match head {
         None => Some(Box::new(node)),
         Some(mut n) => {
