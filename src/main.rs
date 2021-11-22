@@ -1,11 +1,15 @@
 mod e_1_two_sum;
+mod e_21_merge_two_sorted_lists;
 mod e_53_maximum_subarray;
 mod e_88_merge_sorted_array;
 mod e_118_pascals_triangle;
 mod e_121_best_time_to_buy_and_sell_stock;
 mod e_136_single_number;
 mod e_217_contains_duplicate;
+mod e_242_valid_anagram;
 mod e_350_intersection_of_two_arrays;
+mod e_383_ransom_note;
+mod e_387_first_unique_character_in_a_string;
 mod e_566_reshape_the_matrix;
 
 mod m_8_string_to_integer;
