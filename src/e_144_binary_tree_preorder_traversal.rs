@@ -88,8 +88,8 @@ pub fn preorder_traversal(root: Option<Rc<RefCell<TreeNode>>>) -> Vec<i32> {
                 } else if let Some(r) = right {
                     current = r;
                 } else {
-                    if let Some(parent_right) = rights.pop() {
-                        current = parent_right;
+                    if let Some(r) = rights.pop() {
+                        current = r;
                     } else {
                         break;
                     }
