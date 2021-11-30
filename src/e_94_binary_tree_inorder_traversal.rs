@@ -65,6 +65,7 @@ mod tests {
         assert_eq!(inorder_traversal(Some(Rc::new(RefCell::new(n1)))), vec![1, 3, 2]);
     }
 
+    #[test]
     fn test_2() {
         let n1 = TreeNode::new(1);
         let mut n3 = TreeNode::new(3);

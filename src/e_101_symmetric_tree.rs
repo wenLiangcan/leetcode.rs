@@ -80,7 +80,7 @@ use std::cell::RefCell;
 pub fn is_symmetric(root: Option<Rc<RefCell<TreeNode>>>) -> bool {
     match root {
         None => true,
-        Some(mut root) => {
+        Some(root) => {
             let mut l_current: Option<Rc<RefCell<TreeNode>>> = (*root).borrow().left.as_ref().map(Rc::clone);
             let mut r_current: Option<Rc<RefCell<TreeNode>>> = (*root).borrow().right.as_ref().map(Rc::clone);
             let mut l_rights: Vec<Rc<RefCell<TreeNode>>> = vec![];

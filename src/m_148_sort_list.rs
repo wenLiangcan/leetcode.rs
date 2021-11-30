@@ -122,8 +122,8 @@ fn fold_sorted(mut v: Vec<Option<Box<ListNode>>>) -> Vec<Option<Box<ListNode>>> 
     }
 }
 
-fn merge_sorted(mut left: Option<Box<ListNode>>,
-                mut right: Option<Box<ListNode>>) -> Option<Box<ListNode>> {
+fn merge_sorted(left: Option<Box<ListNode>>,
+                right: Option<Box<ListNode>>) -> Option<Box<ListNode>> {
     match (left, right) {
         (Some(mut l_n), Some(mut r_n)) => {
             let mut head = ListNode::new(i32::MIN);
@@ -141,7 +141,7 @@ fn merge_sorted(mut left: Option<Box<ListNode>>,
                             break;
                         }
                     }
-                    let mut r_tail = r_current.next.take();
+                    let r_tail = r_current.next.take();
                     ending.next.replace(r_n);
                     ending = get_ending(ending);
                     if let Some(r) = r_tail {
@@ -159,7 +159,7 @@ fn merge_sorted(mut left: Option<Box<ListNode>>,
                             break;
                         }
                     }
-                    let mut l_tail = l_current.next.take();
+                    let l_tail = l_current.next.take();
                     ending.next.replace(l_n);
                     ending = get_ending(ending);
                     if let Some(l) = l_tail {
