@@ -129,7 +129,7 @@ pub fn insert_into_bst(root: Option<Rc<RefCell<TreeNode>>>, val: i32) -> Option<
                     }
                 } else {
                     if (*current).borrow().right.is_some() {
-                        let mut right = (*current).borrow().right.as_ref().map(Rc::clone).unwrap();
+                        let right = (*current).borrow().right.as_ref().map(Rc::clone).unwrap();
                         current = right;
                     } else {
                         (*current).borrow_mut().right = node;

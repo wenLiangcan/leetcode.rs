@@ -85,22 +85,20 @@ fn is_valid_bst_inner(root: Option<Rc<RefCell<TreeNode>>>, lower: Option<i32>, u
                 if !(left.borrow().val < val) {
                     return false;
                 }
+                if let Some(l) = lower {
+                    if !(left.borrow().val > l) {
+                        return false;
+                    }
+                }
             }
             if let Some(ref right) = current.borrow().right {
                 if !(right.borrow().val > val) {
                     return false;
                 }
-            }
-            if let Some(l) = lower {
-                if let Some(false) = (*current).borrow().left.as_ref()
-                    .map(|left| { left.borrow().val > l }) {
-                    return false;
-                }
-            }
-            if let Some(u) = upper {
-                if let Some(false) = (*current).borrow().right.as_ref()
-                    .map(|right| { right.borrow().val < u}) {
-                    return false;
+                if let Some(u) = upper {
+                    if !(right.borrow().val < u) {
+                        return false;
+                    }
                 }
             }
             return is_valid_bst_inner((*current).borrow().left.as_ref().map(Rc::clone), lower, Some(val))

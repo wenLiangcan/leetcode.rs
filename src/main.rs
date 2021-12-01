@@ -18,11 +18,13 @@ mod e_206_reverse_linked_list;
 mod e_217_contains_duplicate;
 mod e_226_invert_binary_tree;
 mod e_232_implement_queue_using_stacks;
+mod e_235_lowest_common_ancestor_of_a_binary_search_tree;
 mod e_242_valid_anagram;
 mod e_350_intersection_of_two_arrays;
 mod e_383_ransom_note;
 mod e_387_first_unique_character_in_a_string;
 mod e_566_reshape_the_matrix;
+mod e_653_two_sum_iv_input_is_a_bst;
 mod e_700_search_in_a_binary_search_tree;
 
 mod m_8_string_to_integer;
