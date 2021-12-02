@@ -35,6 +35,7 @@ mod m_36_valid_sudoku;
 mod m_61_rotate_list;
 mod m_66_plus_one;
 mod m_74_search_a_2d_matrix;
+mod m_75_sort_colors;
 mod m_98_validate_binary_search_tree;
 mod m_102_binary_tree_level_order_traversal;
 mod m_147_insertion_sort_list;
