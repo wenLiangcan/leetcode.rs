@@ -27,11 +27,13 @@ mod e_387_first_unique_character_in_a_string;
 mod e_566_reshape_the_matrix;
 mod e_653_two_sum_iv_input_is_a_bst;
 mod e_700_search_in_a_binary_search_tree;
+mod e_706_design_hashmap;
 
 mod m_8_string_to_integer;
 mod m_15_three_sum;
 mod m_24_swap_nodes_in_pairs;
 mod m_36_valid_sudoku;
+mod m_56_merge_intervals;
 mod m_61_rotate_list;
 mod m_66_plus_one;
 mod m_74_search_a_2d_matrix;

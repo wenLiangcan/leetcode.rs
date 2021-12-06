@@ -48,7 +48,7 @@ mod tests {
 
     #[test]
     fn test_2() {
-        let mut v = vec![-1, 5, 3, 4, 0];;
+        let mut v = vec![-1, 5, 3, 4, 0];
         sort_colors(&mut v);
         assert_eq!(v, vec![-1, 0, 3, 4, 5]);
     }
