@@ -84,13 +84,10 @@ mod tests {
 
 
 //leetcode submit region begin(Prohibit modification and deletion)
-use std::cell::RefCell;
-use std::rc::Rc;
-
 struct Entry {
     key: i32,
     value: i32,
-    next: Option<Rc<RefCell<Entry>>>
+    next: Option<Box<Entry>>
 }
 
 impl Entry {
@@ -104,7 +101,8 @@ impl Entry {
 }
 
 struct MyHashMap {
-    buckets: Vec<Option<Rc<RefCell<Entry>>>>
+    buckets: Vec<Option<Box<Entry>>>,
+    size: usize
 }
 
 /**
@@ -119,44 +117,79 @@ struct MyHashMap {
  */
 impl MyHashMap {
 
+    fn init_buckets(size: usize) -> Vec<Option<Box<Entry>>> {
+        let mut buckets = vec![];
+        for _ in 0 .. size {
+            buckets.push(None);
+        }
+        buckets
+    }
+
     fn new() -> Self {
-        MyHashMap { buckets: vec![None; 16] }
+        MyHashMap {
+            buckets: Self::init_buckets(16),
+            size: 0
+        }
+    }
+
+    fn _hash(capacity: usize, key: i32) -> usize {
+        key.abs() as usize % capacity
     }
 
     fn hash(&self, key: i32) -> usize {
-        key.abs() as usize % self.buckets.len()
+        Self::_hash(self.buckets.len(), key)
     }
 
-    fn put(&mut self, key: i32, value: i32) {
-        let idx = self.hash(key);
-        let bucket: Option<Rc<RefCell<Entry>>> = self.buckets[idx].as_ref().map(Rc::clone);
+    fn rehash(&mut self) {
+        if self.size as f32 >= self.buckets.len() as f32 * 0.75 {
+            let mut buckets = Self::init_buckets(self.buckets.len() * 2);
+            for mut n in &self.buckets {
+                while let Some(e) = n {
+                    Self::put_entry(&mut buckets, e.key, e.value);
+                    n = &e.next;
+                }
+            }
+            self.buckets = buckets;
+        }
+    }
+
+    fn put_entry(buckets: &mut Vec<Option<Box<Entry>>>, key: i32, value: i32) -> bool {
+        let idx = Self::_hash(buckets.len(), key);
+        let bucket = buckets[idx].as_mut();
         if let Some(mut e) = bucket {
             loop {
-                if (*e).borrow().key == key {
-                    (*e.borrow_mut()).value = value;
-                    return;
-                } else if (*e).borrow().next.is_some() {
-                    let next = (*e).borrow().next.as_ref().map(Rc::clone).unwrap();
+                if (*e).key == key {
+                    (*e).value = value;
+                    return false;
+                } else if (*e).next.is_some() {
+                    let next = (*e).next.as_mut().unwrap();
                     e = next;
-                    continue;
                 } else {
-                    (*e.borrow_mut()).next = Some(Rc::new(RefCell::new(Entry::new(key, value))));
-                    return;
+                    (*e).next = Some(Box::new(Entry::new(key, value)));
+                    return true;
                 }
             }
         } else {
-            self.buckets[idx] = Some(Rc::new(RefCell::new(Entry::new(key, value))));
+            buckets[idx] = Some(Box::new(Entry::new(key, value)));
+            return true;
+        }
+    }
+
+    fn put(&mut self, key: i32, value: i32) {
+        if Self::put_entry(&mut self.buckets, key, value) {
+            self.size += 1;
+            self.rehash();
         }
     }
 
     fn get(&self, key: i32) -> i32 {
         let idx = self.hash(key);
-        let mut bucket: Option<Rc<RefCell<Entry>>> = self.buckets[idx].as_ref().map(Rc::clone);
+        let mut bucket = self.buckets[idx].as_ref();
         while let Some(e) = bucket {
-            if (*e).borrow().key == key {
-                return (*e).borrow().value;
+            if (*e).key == key {
+                return (*e).value;
             } else {
-                bucket = (*e).borrow().next.as_ref().map(Rc::clone);
+                bucket = (*e).next.as_ref();
             }
         }
         return -1;
@@ -164,20 +197,26 @@ impl MyHashMap {
 
     fn remove(&mut self, key: i32) {
         let idx = self.hash(key);
-        let bucket: Option<Rc<RefCell<Entry>>> = self.buckets[idx].as_ref().map(Rc::clone);
+        let bucket = self.buckets[idx].as_mut();
         if let Some(mut e) = bucket {
-            if (*e).borrow().key == key {
-                let next = (*e).borrow_mut().next.take();
+            if (*e).key == key {
+                let next = (*e).next.take();
                 self.buckets[idx] = next;
+                self.size -= 1;
             } else {
-                while (*e).borrow().next.is_some() {
-                    let next: Rc<RefCell<Entry>> = (*e).borrow().next.as_ref().map(Rc::clone).unwrap();
-                    if (*next).borrow().key == key {
-                        let nn = (*next).borrow_mut().next.take();
-                        (*e).borrow_mut().next = nn;
+                while (*e).next.is_some() {
+                    let next = (*e).next.as_ref().unwrap();
+                    if (*next).key == key {
+                        let nn = (*e.next.as_mut().unwrap()).next.take();
+                        if let Some(nn) = nn {
+                            (*e).next.replace(nn);
+                        } else {
+                            (*e).next.take();
+                        }
+                        self.size -= 1;
                         return;
                     } else {
-                        e = next;
+                        e = (*e).next.as_mut().unwrap();
                     }
                 }
             }
