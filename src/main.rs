@@ -9,6 +9,7 @@ mod e_101_symmetric_tree;
 mod e_104_maximum_depth_of_binary_tree;
 mod e_112_path_sum;
 mod e_118_pascals_triangle;
+mod e_119_pascals_triangle_ii;
 mod e_121_best_time_to_buy_and_sell_stock;
 mod e_136_single_number;
 mod e_144_binary_tree_preorder_traversal;
