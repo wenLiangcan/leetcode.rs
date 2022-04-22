@@ -34,6 +34,7 @@ mod m_8_string_to_integer;
 mod m_15_three_sum;
 mod m_24_swap_nodes_in_pairs;
 mod m_36_valid_sudoku;
+mod m_48_rotate_image;
 mod m_56_merge_intervals;
 mod m_61_rotate_list;
 mod m_66_plus_one;
