@@ -36,6 +36,7 @@ mod m_24_swap_nodes_in_pairs;
 mod m_36_valid_sudoku;
 mod m_48_rotate_image;
 mod m_56_merge_intervals;
+mod m_59_spiral_matrix_ii;
 mod m_61_rotate_list;
 mod m_66_plus_one;
 mod m_74_search_a_2d_matrix;
