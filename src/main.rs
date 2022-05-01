@@ -45,6 +45,7 @@ mod m_98_validate_binary_search_tree;
 mod m_102_binary_tree_level_order_traversal;
 mod m_147_insertion_sort_list;
 mod m_148_sort_list;
+mod m_240_search_a_2d_matrix_ii;
 mod m_701_insert_into_a_binary_search_tree;
 
 fn main() {
